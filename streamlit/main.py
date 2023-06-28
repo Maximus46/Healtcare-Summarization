@@ -6,13 +6,14 @@ import generic as ge
 import analytics as an
 import summarization as su
 import exams as ex
+from graph import display_graph
 
 def main():
 
     ge.imposta_sfondo()
 
     with st.sidebar:
-        selected = option_menu("Healthcare", ["Home", 'Paziente','Summarization','Visite/Esami','Prenotazioni','Interventi','Ricevute','Analytics'], 
+        selected = option_menu("Healthcare", ["Home", 'Paziente','Summarization','Visite/Esami','Prenotazioni','Interventi','Ricevute','Analytics', 'Graph'], 
             icons=['house', 'exclamation-circle','plus','search','calendar','caret-down','file', 'question'], menu_icon="heart", default_index=0)
         
     # Controlla quale voce del menu è stata selezionata
@@ -40,6 +41,8 @@ def main():
     elif selected == "Analytics":
         # Inserisci qui le funzionalità per la pagina Analytics
         an.analytics()
+    elif selected == "Graph":
+        display_graph()
 
     expander = st.sidebar.expander("DESCRIZIONE DELLA DASHBOARD")
 
@@ -70,6 +73,8 @@ def main():
         st.subheader(":blue[Analytics]")
         st.markdown("Questa sezione fornisce strumenti e visualizzazioni avanzate per l'analisi dei dati, consentendo agli utenti di ottenere risultati significativi.")
 
+        st.subheader(":blue[Graph]")
+        st.markdown("Questa sezione consente di vedere la lista di MedicalProblems, Test e Treatment di un paziente sottoforma di grafo.")
 
 if __name__ == "__main__":
     main()
