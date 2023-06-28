@@ -1,17 +1,24 @@
 import streamlit as st
-from pymongo import MongoClient
 import certifi
 import math
+import pandas as pd
+from queries.neo4j_queries import get_patient_entities
+from pymongo import MongoClient
+from database.neo4j_db import Neo4jConnector
 
 def info_patient():
     # Connessione al database MongoDB
     ca = certifi.where()
     client = MongoClient('mongodb+srv://Pasquale:cJ0RhXpFoKRPsmxt@cluster0.k9yxetn.mongodb.net/', tlsCAFile=ca)
     db = client.healthcareDB
-    #Prelevare solo tramite id
+
+    # Prelevare solo tramite id
     collection_id=db.patients_20
     documents = list(collection_id.find())
 
+    # Create Neo4j connector
+    neo4j_connector = Neo4jConnector()
+    
     descrizione()
 
     selected_patient=select_box(documents)
@@ -20,6 +27,7 @@ def info_patient():
         dati_personali()
         dati_clinici(selected_patient)
         anamnesi(selected_patient)
+        display_patient_entities(neo4j_connector, selected_patient['patient_id'])
     else:
         st.write("Paziente non trovato.")
 
@@ -95,6 +103,38 @@ def anamnesi(selected_patient):
             for key, value in visit.items():
                 col1.markdown(f"<span style='white-space: nowrap; color:#4897ff'><b>{key}</b><b>{car}</b></span>", unsafe_allow_html=True)
                 col2.markdown(f"{value} <br>", unsafe_allow_html=True)
+
+def display_patient_entities(neo4j_connector, patient_id):
+    st.subheader(':red[**List of MedicalProblems, Test and Treatment**]')
+
+    if not patient_id:
+        st.warning("Please enter a Patient ID")
+        return
+
+    # Retrieve patient data from Neo4j
+    patient_data = get_patient_entities(neo4j_connector, patient_id)
+
+    if not patient_data:
+        st.warning("No data found for the given Patient ID")
+        return
+    
+    data = {
+        "Medical Problem": patient_data.get("MedicalProblems", []),
+        "Test": patient_data.get("Tests", []),
+        "Treatment": patient_data.get("Treatments", []),
+    }    
+    
+    num_columns = len(data)
+    columns = st.columns(num_columns)
+
+    for i, (category, values) in enumerate(data.items()):
+        with columns[i]:
+            # st.markdown(f"**{category}s**")
+            if values:
+                df = pd.DataFrame({category: values})
+                st.dataframe(df, hide_index=True, use_container_width=True)           
+            else:
+                st.info(f"No {category.lower()}s found.")
 
 def select_box(documents):
     # Creazione della select box per selezionare il patient_id

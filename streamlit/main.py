@@ -15,7 +15,6 @@ def main():
         selected = option_menu("Healthcare", ["Home", 'Paziente','Summarization','Visite/Esami','Prenotazioni','Interventi','Ricevute','Analytics'], 
             icons=['house', 'exclamation-circle','plus','search','calendar','caret-down','file', 'question'], menu_icon="heart", default_index=0)
         
-
     # Controlla quale voce del menu è stata selezionata
     if selected == "Home":
         # Inserisci qui le funzionalità per la pagina Home
