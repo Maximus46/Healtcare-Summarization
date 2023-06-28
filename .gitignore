@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# IDE-specific
+.vscode/
+
+# Environment variables
+.env
+
+# Dependencies
+/.venv/
+/venv/
+/pip-selfcheck.json
+
+# Build artifacts
+/build/
+/dist/
+
+# Package build artifacts
+*.egg-info/
+
+# Testing
+/.pytest_cache/
+/.coverage
+
+# Logs
+/log/
+*.log
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+
+# Editor-specific files
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Other project-specific files or directories
+# Add any additional files or directories that should be ignored by Git
+/data/
+test.py
+models/NER/
+models/AC/
