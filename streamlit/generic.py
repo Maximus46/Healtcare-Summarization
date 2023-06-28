@@ -3,7 +3,7 @@ import base64
 
 def imposta_sfondo():
     # Imposta il percorso dell'immagine di sfondo
-    background_image_path = r"C:\Users\ricca\Documents\Università\Big Data Engineering\Final_project\Healtcare - Summarization\streamlit\backg1.png"
+    background_image_path = r"C:\Users\ricca\Documents\Università\Big Data Engineering\Final_project\Healtcare - Summarization\streamlit\imgs\backg1.png"
 
 
     with open(background_image_path, "rb") as image_file:
