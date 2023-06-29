@@ -8,8 +8,25 @@ import summarization as su
 import exams as ex
 from graph import display_graph
 
+
+def configure_streamlit_page (page_title, page_icon, layout):
+    # Set page configuration
+    st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
+    
+    # Set app title
+    st.title(page_title + " " + page_icon)
+    #st.caption("Analyze patient's health data through interactive graph visualizations for comprehensive insights: ") 
+
+# Constants
+PAGE_TITLE = "HealthCare - Summarization"
+PAGE_ICON = "🩺"
+LAYOUT = "wide"
+
 def main():
 
+    # Call the configure_streamlit_app function at the beginning of your main script
+    configure_streamlit_page (PAGE_TITLE, PAGE_ICON, LAYOUT)
+    
     ge.imposta_sfondo()
 
     with st.sidebar:

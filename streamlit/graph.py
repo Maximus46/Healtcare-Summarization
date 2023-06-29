@@ -13,21 +13,11 @@ from database.neo4j_db import Neo4jConnector
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ---- CONFIGURAZIONE PER AGRAPH
+# Graph configuration
 config = Config(
     width=2000,
     height=600,
     directed=True,
-    physics={
-        "barnesHut": {
-            "gravitationalConstant": -14000,
-            "centralGravity": 0.3,
-            "springLength": 300,
-            "springConstant": 0.02,
-            "damping": 0.09,
-            "avoidOverlap": 1
-        }
-    },
     hierarchical=True
 )
 
@@ -114,14 +104,6 @@ def retrieve_patient_ids(mongo_db: MongoDB, collection: str):
 
     return patient_ids
 
-def configure_streamlit_page (page_title, page_icon, layout):
-    # Set page configuration
-    st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
-    
-    # Set app title
-    st.title(page_title + " " + page_icon)
-    st.caption("Analyze patient's health data through interactive graph visualizations for comprehensive insights: ") 
-
 # Constants
 DATABASE = "healthcareDB"
 COLLECTION = "patients_20"
@@ -137,9 +119,7 @@ def display_graph():
     mongo_db = MongoDB(DATABASE)
     
     patient_ids = retrieve_patient_ids(mongo_db, COLLECTION)
-    
-    print("IDS: ", patient_ids)
-    
+        
     # Connects to Neo4j
     neo4j_connector = Neo4jConnector()
     logger.info("Connected to Neo4j")
