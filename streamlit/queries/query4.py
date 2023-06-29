@@ -5,7 +5,6 @@ def query_4(collection):
     pipeline = [
         {
             '$match': {
-                '_DECEDUTO': 'SI',
                 'visits': {
                     '$elemMatch': {
                         'name': 'ANAMNESI',
@@ -48,7 +47,7 @@ def query_4(collection):
 
 
     # Crea il grafico a torta
-    labels = ['Deceduti (ALCOOL)', 'Deceduti (NO ALCOOL)']
+    labels = ['Pazienti AFFETTI da alcol', 'Pazienti NON AFFETTI da alcol']
     sizes = [total_count, total_documents - total_count]
     colors = ['#59c795', '#607D8B']
     explode = (0.1, 0)
