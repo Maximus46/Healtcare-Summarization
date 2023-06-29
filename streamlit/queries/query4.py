@@ -27,6 +27,7 @@ def query_4(collection):
         }
     ]
 
+
     # Esegui la pipeline di aggregazione
     result = list(collection.aggregate(pipeline))
 
