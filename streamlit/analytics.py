@@ -1,19 +1,49 @@
 import streamlit as st
-from pymongo import MongoClient
-import certifi
+import pandas as pd
+from database.mongo_db import MongoDB
+import plotly.express as px
 from queries.query1 import query_1 as q1
 from queries.query2 import query_2 as q2
-from queries.query3 import query_3 as q3
+from queries.query3 import query_3
 from queries.query4 import query_4 as q4
+
+# Constants
+DATABASE = "healthcareDB"
+COLLECTION = "patients"
+
+@st.cache_data
+def plot_exam_distribution(_mongo_db: MongoDB, collection: str):
+    data = _mongo_db.perform_aggregation(collection, query_3())
+
+    df = pd.DataFrame(data)
+    print("DATAFRAME: ", df)
+    # Visualization - Exam Distribution
+
+    # Check if exam_distribution_selected dataframe is empty
+    if df.empty:
+        st.warning("No data available for the selected patient.")
+
+    else:
+        # Create the bar plot
+        fig = px.bar(df, x='exam_name', y='count',
+                    color='count', hover_data={'count': ':.2f'})
+        
+        # Update the layout to make the plot vertical and adjust the width
+        fig.update_layout(xaxis_title='Exam Type', yaxis_title='Occurrencies',
+                        title='Exam Distribution Across All Patients.')
+        fig.update_traces(#marker_color='rgba(50, 171, 96, 0.6)', marker_line_color='rgb(0, 0, 0)',
+                        marker_line_width=1.5, opacity=0.8)
+        fig.update_layout(height=800, width=1200)
+
+        # Show the plot using st.plotly_chart
+        st.plotly_chart(fig, use_container_width=True)
 
 @st.cache_data()
 def analytics():  
     # Connessione al database MongoDB
-    ca = certifi.where()
-    client = MongoClient('mongodb+srv://Pasquale:cJ0RhXpFoKRPsmxt@cluster0.k9yxetn.mongodb.net/', tlsCAFile=ca)
-    db = client.healthcareDB
+    mongo_db = MongoDB(DATABASE)
     #Prelevare solo tramite id
-    collection=db.patients
+    collection=mongo_db.get_collection(COLLECTION)
 
     #Intro della pagina
     st.title(":red[ANALYTICS]")
@@ -49,9 +79,8 @@ def analytics():
 
     #Query 3
     st.header(":blue[Analytic3]")
-    st.markdown("<h5>Questa query calcola il numero totali di esemi e visite effettutate dai pazienti.", unsafe_allow_html=True)
-    graph3=q3(collection)
-    st.pyplot(graph3)
+    st.markdown("<h5>Questa query calcola il numero totali di esami e visite effettutate dai pazienti.", unsafe_allow_html=True)
+    plot_exam_distribution(mongo_db, COLLECTION)
     st.markdown("---")
     
     #Query 4
