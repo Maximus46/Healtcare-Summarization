@@ -5,7 +5,6 @@ def query_4(collection):
     pipeline = [
         {
             '$match': {
-                '_DECEDUTO': 'SI',
                 'visits': {
                     '$elemMatch': {
                         'name': 'ANAMNESI',
@@ -28,6 +27,7 @@ def query_4(collection):
         }
     ]
 
+
     # Esegui la pipeline di aggregazione
     result = list(collection.aggregate(pipeline))
 
@@ -39,16 +39,8 @@ def query_4(collection):
     # Calcola la percentuale
     percentuale = (total_count / total_documents) * 100
 
-    #DEBUG
-    # # Stampa il conteggio totale
-    # print("Conteggio totale:", total_count)
-
-    # # Stampa la percentuale
-    # print("Percentuale:", percentuale)
-
-
     # Crea il grafico a torta
-    labels = ['Deceduti (ALCOOL)', 'Deceduti (NO ALCOOL)']
+    labels = ['Pazienti AFFETTI da alcol', 'Pazienti NON AFFETTI da alcol']
     sizes = [total_count, total_documents - total_count]
     colors = ['#59c795', '#607D8B']
     explode = (0.1, 0)

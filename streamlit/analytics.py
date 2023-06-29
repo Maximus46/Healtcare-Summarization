@@ -86,7 +86,7 @@ def analytics():
     #Query 4
     col1, col2 = st.columns(2)
     col1.header(":blue[Analytic4]")
-    col1.markdown("<h5>Questa query calcola la percentuale di pazienti deceduti con la patologia dell'alcool", unsafe_allow_html=True)
+    col1.markdown("<h5>Questa query calcola la percentuale di pazienti affetti da alcol", unsafe_allow_html=True)
     graph4, percentuale4, total_count4 = q4(collection)
     col1.pyplot(graph4)
     col1.subheader(":red[Risultati:]")
