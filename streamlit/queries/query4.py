@@ -38,14 +38,6 @@ def query_4(collection):
     # Calcola la percentuale
     percentuale = (total_count / total_documents) * 100
 
-    #DEBUG
-    # # Stampa il conteggio totale
-    # print("Conteggio totale:", total_count)
-
-    # # Stampa la percentuale
-    # print("Percentuale:", percentuale)
-
-
     # Crea il grafico a torta
     labels = ['Pazienti AFFETTI da alcol', 'Pazienti NON AFFETTI da alcol']
     sizes = [total_count, total_documents - total_count]
