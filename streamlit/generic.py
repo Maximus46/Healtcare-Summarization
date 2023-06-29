@@ -2,8 +2,8 @@ import streamlit as st
 import base64
 
 def imposta_sfondo():
-    # Imposta il percorso dell'immagine di sfondo
-    background_image_path = r"C:\Users\ricca\Documents\Università\Big Data Engineering\Final_project\Healtcare - Summarization\streamlit\imgs\backg1.png"
+    # Imposta il percorso dell'immagine di sfond1
+    background_image_path = r"C:\Users\ricca\Documents\Università\Big Data Engineering\Final_project\Healtcare - Summarization\streamlit\imgs\background.png"
 
 
     with open(background_image_path, "rb") as image_file:
